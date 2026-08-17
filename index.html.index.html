@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#7657ff">
+
+<title>Luxy Gmail</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#080a11;
+    --card:#111521;
+    --card2:#171c28;
+    --text:#fff;
+    --muted:#9299aa;
+    --border:#292f3d;
+    --purple:#7657ff;
+    --purple2:#5434e5;
+    --green:#20d47b;
+    --red:#ff5264;
+}
+
+body.light{
+    --bg:#f4f6fb;
+    --card:#fff;
+    --card2:#f7f8fc;
+    --text:#171a22;
+    --muted:#687386;
+    --border:#e0e4ed;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    padding-bottom:90px;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    border-bottom:1px solid var(--border);
+    background:rgba(8,10,17,.95);
+    backdrop-filter:blur(15px);
+}
+
+body.light .header{
+    background:rgba(255,255,255,.95);
+}
+
+.header-inner{
+    max-width:760px;
+    margin:auto;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:43px;
+    height:43px;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    font-size:21px;
+}
+
+.logo-name{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.logo-sub{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.theme{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+}
+
+.hero{
+    max-width:760px;
+    margin:auto;
+    padding:18px 16px 5px;
+}
+
+.hero-card{
+    padding:24px;
+    border-radius:24px;
+    border:1px solid #392f70;
+    background:
+        radial-gradient(
+            circle at 100% 0,
+            #7657ff45,
+            transparent 40%
+        ),
+        linear-gradient(135deg,#18132f,#0c1018);
+}
+
+body.light .hero-card{
+    background:
+        radial-gradient(
+            circle at 100% 0,
+            #7657ff20,
+            transparent 40%
+        ),
+        linear-gradient(135deg,#fff,#efedff);
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    color:var(--green);
+    background:#20d47b17;
+    padding:7px 11px;
+    border-radius:20px;
+    font-size:10px;
+    margin-bottom:13px;
+}
+
+.dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.hero h1{
+    font-size:27px;
+    line-height:1.2;
+    margin-bottom:8px;
+}
+
+.hero h1 span{
+    color:#9a83ff;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.container{
+    max-width:760px;
+    margin:auto;
+    padding:10px 16px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.section{
+    margin-top:17px;
+}
+
+.title{
+    font-size:18px;
+    margin-bottom:12px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
+}
+
+.menu{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:15px;
+    border-radius:17px;
+    text-align:left;
+}
+
+.menu:hover{
+    border-color:var(--purple);
+}
+
+.menu-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#7657ff17;
+    font-size:19px;
+    margin-bottom:10px;
+}
+
+.menu strong{
+    display:block;
+    font-size:13px;
+}
+
+.menu small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:15px;
+    margin-bottom:11px;
+}
+
+.btn{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    color:#fff;
+    font-weight:bold;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+}
+
+.green{
+    background:linear-gradient(135deg,#20d47b,#0ca55e);
+}
+
+.red{
+    background:var(--red);
+}
+
+.small-btn{
+    width:auto;
+    padding:8px 11px;
+    font-size:11px;
+}
+
+.payment{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:13px;
+    border:1px solid var(--border);
+    background:var(--card2);
+    color:var(--text);
+    text-align:left;
+}
+
+.payment.selected{
+    border-color:var(--purple);
+    box-shadow:0 0 0 1px var(--purple);
+}
+
+.payment-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.pay-icon{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    background:#7657ff17;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.pay-name{
+    font-size:13px;
+    font-weight:bold;
+}
+
+.pay-number{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.radio{
+    color:var(--muted);
+    font-size:18px;
+}
+
+.selected .radio{
+    color:var(--purple);
+}
+
+.input{
+    width:100%;
+    padding:13px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--card2);
+    color:var(--text);
+    outline:none;
+}
+
+.input:focus{
+    border-color:var(--purple);
+}
+
+.info{
+    display:flex;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.info:last-child{
+    border-bottom:0;
+}
+
+.info-icon{
+    width:37px;
+    height:37px;
+    min-width:37px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:#7657ff17;
+}
+
+.info strong{
+    display:block;
+    font-size:13px;
+}
+
+.info span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-top:3px;
+}
+
+.rule{
+    display:flex;
+    gap:10px;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.rule:last-child{
+    border-bottom:0;
+}
+
+.rule-num{
+    width:26px;
+    height:26px;
+    min-width:26px;
+    border-radius:50%;
+    background:#7657ff17;
+    color:#9a83ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.rule p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.6;
+}
+
+.history{
+    padding:13px;
+    border:1px solid var(--border);
+    background:var(--card2);
+    border-radius:14px;
+    margin-bottom:8px;
+}
+
+.history-id{
+    color:#9a83ff;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.history-main{
+    margin-top:6px;
+    font-size:13px;
+}
+
+.history-sub{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:4px;
+}
+
+.account{
+    border:1px solid var(--border);
+    background:var(--card2);
+    padding:13px;
+    border-radius:13px;
+    margin-bottom:8px;
+}
+
+.account-email{
+    font-weight:bold;
+    font-size:13px;
+}
+
+.account-note{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.waiting{
+    text-align:center;
+    padding:20px 10px;
+}
+
+.waiting-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.waiting h3{
+    margin-bottom:7px;
+}
+
+.waiting p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.6;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    background:#0009;
+    align-items:flex-end;
+    justify-content:center;
+    padding:10px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:650px;
+    max-height:94vh;
+    overflow:auto;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:15px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:13px;
+}
+
+.modal-head h2{
+    font-size:18px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    font-size:20px;
+}
+
+.preview{
+    display:none;
+    width:100%;
+    max-height:280px;
+    object-fit:contain;
+    border:1px solid var(--border);
+    border-radius:12px;
+    margin-top:10px;
+}
+
+.bottom{
+    position:fixed;
+    left:50%;
+    bottom:9px;
+    transform:translateX(-50%);
+    width:calc(100% - 22px);
+    max-width:730px;
+    z-index:200;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:5px;
+    padding:7px;
+    border:1px solid var(--border);
+    border-radius:20px;
+    background:rgba(17,21,33,.96);
+    backdrop-filter:blur(15px);
+}
+
+body.light .bottom{
+    background:rgba(255,255,255,.96);
+}
+
+.nav{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    border-radius:12px;
+    padding:7px 3px;
+    font-size:9px;
+}
+
+.nav span{
+    display:block;
+    font-size:18px;
+    margin-bottom:3px;
+}
+
+.nav.active{
+    color:#9a83ff;
+    background:#7657ff17;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:80px;
+    transform:translateX(-50%);
+    z-index:1000;
+    display:none;
+    padding:11px 15px;
+    background:#fff;
+    color:#111;
+    border-radius:12px;
+    font-size:11px;
+    box-shadow:0 10px 30px #0005;
+}
+
+.toast.show{
+    display:block;
+}
+
+@media(max-width:420px){
+
+    .hero h1{
+        font-size:23px;
+    }
+
+    .grid{
+        gap:7px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="header-inner">
+
+<div class="logo">
+
+<div class="logo-icon">
+✉️
+</div>
+
+<div>
+<div class="logo-name">
+Luxy Gmail
+</div>
+
+<div class="logo-sub">
+DIGITAL STORE • ONLINE
+</div>
+</div>
+
+</div>
+
+<button
+class="theme"
+onclick="toggleTheme()"
+id="themeBtn"
+>
+☀️
+</button>
+
+</div>
+
+</header>
+
+
+<div class="hero">
+
+<div class="hero-card">
+
+<div class="status">
+<span class="dot"></span>
+TOKO ONLINE
+</div>
+
+<h1>
+Selamat Datang di
+<span>Luxy Gmail</span>
+</h1>
+
+<p>
+Buy Gmail Fresh dan Gmail Trial.
+Pilih jumlah akun, metode pembayaran,
+upload bukti dan konfirmasi kepada Admin.
+</p>
+
+</div>
+
+</div>
+
+
+<main class="container">
+
+
+<!-- HOME -->
+
+<section
+id="home"
+class="page active"
+>
+
+<div class="section">
+
+<h2 class="title">
+Menu Utama
+</h2>
+
+<div class="grid">
+
+<button
+class="menu"
+onclick="openBuy()"
+>
+
+<div class="menu-icon">
+🛒
+</div>
+
+<strong>
+Buy Gmail
+</strong>
+
+<small>
+Fresh Rp5.000 • Trial Rp6.000
+</small>
+
+</button>
+
+
+<button
+class="menu"
+onclick="storGmail()"
+>
+
+<div class="menu-icon">
+📦
+</div>
+
+<strong>
+Stor Gmail Fresh
+</strong>
+
+<small>
+Hubungi Admin
+</small>
+
+</button>
+
+
+<button
+class="menu"
+onclick="page('rules')"
+>
+
+<div class="menu-icon">
+📜
+</div>
+
+<strong>
+Rules Gmail
+</strong>
+
+<small>
+Ketentuan toko
+</small>
+
+</button>
+
+
+<button
+class="menu"
+onclick="page('payment')"
+>
+
+<div class="menu-icon">
+💳
+</div>
+
+<strong>
+Pembayaran
+</strong>
+
+<small>
+DANA • GoPay • ShopeePay
+</small>
+
+</button>
+
+
+<button
+class="menu"
+onclick="page('detail')"
+>
+
+<div class="menu-icon">
+🏪
+</div>
+
+<strong>
+Detail Toko
+</strong>
+
+<small>
+Informasi toko
+</small>
+
+</button>
+
+
+<button
+class="menu"
+onclick="page('orders')"
+>
+
+<div class="menu-icon">
+🧾
+</div>
+
+<strong>
+Order Saya
+</strong>
+
+<small>
+Status dan akun
+</small>
+
+</button>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="card">
+
+<div class="info">
+
+<div class="info-icon">
+✉️
+</div>
+
+<div>
+<strong>
+Gmail Fresh
+</strong>
+
+<span>
+Rp5.000 / akun
+</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-icon">
+🎬
+</div>
+
+<div>
+<strong>
+Gmail Trial
+</strong>
+
+<span>
+Rp6.000 / akun
+</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="btn green"
+onclick="openBuy()"
+>
+🛒 BUY GMAIL
+</button>
+
+</div>
+
+</section>
+
+
+<!-- RULES -->
+
+<section
+id="rules"
+class="page"
+>
+
+<h2 class="title">
+📜 Rules Gmail
+</h2>
+
+<div class="card">
+
+<div class="rule">
+
+<div class="rule-num">
+1
+</div>
+
+<p>
+Gmail Fresh berharga
+<strong>Rp5.000</strong> per akun.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<div class="rule-num">
+2
+</div>
+
+<p>
+Gmail Trial berharga
+<strong>Rp6.000</strong> per akun.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<div class="rule-num">
+3
+</div>
+
+<p>
+Pembayaran dilakukan menggunakan
+metode yang tersedia di website.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<div class="rule-num">
+4
+</div>
+
+<p>
+Bukti pembayaran harus dikirim
+kepada Admin untuk diverifikasi.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<div class="rule-num">
+5
+</div>
+
+<p>
+Akun hanya ditampilkan setelah
+pembayaran diverifikasi.
+</p>
+
+</div>
+
+
+<div class="rule">
+
+<div class="rule-num">
+6
+</div>
+
+<p>
+Jangan memasukkan password Gmail
+ke dalam website.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PAYMENT -->
+
+<section
+id="payment"
+class="page"
+>
+
+<h2 class="title">
+💳 Metode Pembayaran
+</h2>
+
+<div class="card">
+
+<div class="payment">
+
+<div class="payment-left">
+
+<div class="pay-icon">
+💙
+</div>
+
+<div>
+<div class="pay-name">
+DANA
+</div>
+
+<div class="pay-number">
+083185721763
+</div>
+</div>
+
+</div>
+
+<button
+class="btn small-btn"
+onclick="copy('083185721763')"
+>
+Salin
+</button>
+
+</div>
+
+
+<div class="payment">
+
+<div class="payment-left">
+
+<div class="pay-icon">
+💚
+</div>
+
+<div>
+<div class="pay-name">
+GoPay
+</div>
+
+<div class="pay-number">
+083174223034
+</div>
+</div>
+
+</div>
+
+<button
+class="btn small-btn"
+onclick="copy('083174223034')"
+>
+Salin
+</button>
+
+</div>
+
+
+<div class="payment">
+
+<div class="payment-left">
+
+<div class="pay-icon">
+🟧
+</div>
+
+<div>
+<div class="pay-name">
+ShopeePay
+</div>
+
+<div class="pay-number">
+083119546179
+</div>
+</div>
+
+</div>
+
+<button
+class="btn small-btn"
+onclick="copy('083119546179')"
+>
+Salin
+</button>
+
+</div>
+
+
+<div class="payment">
+
+<div class="payment-left">
+
+<div class="pay-icon">
+🏦
+</div>
+
+<div>
+<div class="pay-name">
+Bank Jago
+</div>
+
+<div class="pay-number">
+506640850647
+</div>
+</div>
+
+</div>
+
+<button
+class="btn small-btn"
+onclick="copy('506640850647')"
+>
+Salin
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DETAIL -->
+
+<section
+id="detail"
+class="page"
+>
+
+<h2 class="title">
+🏪 Detail Toko
+</h2>
+
+<div class="card">
+
+<div class="info">
+
+<div class="info-icon">
+🏪
+</div>
+
+<div>
+<strong>
+Nama Toko
+</strong>
+
+<span>
+Luxy Gmail
+</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-icon">
+🛒
+</div>
+
+<div>
+<strong>
+Buy Gmail Fresh
+</strong>
+
+<span>
+Rp5.000 / akun
+</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-icon">
+🎬
+</div>
+
+<div>
+<strong>
+Buy Gmail Trial
+</strong>
+
+<span>
+Rp6.000 / akun
+</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-icon">
+👨‍💼
+</div>
+
+<div>
+<strong>
+Admin Order
+</strong>
+
+<span>
+083188891708
+</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<div class="info-icon">
+⚠️
+</div>
+
+<div>
+<strong>
+Laporan Masalah
+</strong>
+
+<span>
+0838 2413 2465
+</span>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<button
+class="btn"
+onclick="storGmail()"
+>
+📦 Stor Gmail Fresh
+</button>
+
+<br><br>
+
+<button
+class="btn red"
+onclick="report()"
+>
+⚠️ Laporan Masalah
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section
+id="orders"
+class="page"
+>
+
+<h2 class="title">
+🧾 Order Saya
+</h2>
+
+<div id="ordersList"></div>
+
+</section>
+
+
+</main>
+
+
+<!-- BUY MODAL -->
+
+<div
+class="modal"
+id="buyModal"
+>
+
+<div class="modal-box">
+
+<div class="modal-head">
+
+<h2>
+🛒 Buy Gmail
+</h2>
+
+<button
+class="close"
+onclick="closeBuy()"
+>
+×
+</button>
+
+</div>
+
+
+<!-- PRODUCT -->
+
+<div class="card">
+
+<h3 style="
+font-size:14px;
+margin-bottom:11px;
+">
+Pilih Produk
+</h3>
+
+
+<button
+class="payment"
+id="fresh"
+onclick="
+selectProduct(
+'Gmail Fresh',
+5000,
+'fresh'
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+✉️
+</div>
+
+<div>
+
+<div class="pay-name">
+Gmail Fresh
+</div>
+
+<div class="pay-number">
+Rp5.000 / akun
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+
+<button
+class="payment"
+id="trial"
+onclick="
+selectProduct(
+'Gmail Trial',
+6000,
+'trial'
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+🎬
+</div>
+
+<div>
+
+<div class="pay-name">
+Gmail Trial
+</div>
+
+<div class="pay-number">
+Rp6.000 / akun
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+</div>
+
+
+<!-- QTY -->
+
+<div class="card">
+
+<label style="
+font-size:11px;
+color:var(--muted);
+display:block;
+margin-bottom:7px;
+">
+Jumlah akun
+</label>
+
+<input
+class="input"
+id="qty"
+type="number"
+min="1"
+max="100"
+value="1"
+oninput="updateTotal()"
+>
+
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-top:13px;
+padding-top:12px;
+border-top:1px solid var(--border);
+">
+
+<strong>
+Total
+</strong>
+
+<strong
+id="total"
+style="color:#9a83ff"
+>
+Rp0
+</strong>
+
+</div>
+
+</div>
+
+
+<!-- PAYMENT -->
+
+<div class="card">
+
+<h3 style="
+font-size:14px;
+margin-bottom:11px;
+">
+Pilih Pembayaran
+</h3>
+
+
+<button
+class="payment"
+onclick="
+selectPayment(
+'DANA',
+'083185721763',
+this
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+💙
+</div>
+
+<div>
+
+<div class="pay-name">
+DANA
+</div>
+
+<div class="pay-number">
+083185721763
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+
+<button
+class="payment"
+onclick="
+selectPayment(
+'GoPay',
+'083174223034',
+this
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+💚
+</div>
+
+<div>
+
+<div class="pay-name">
+GoPay
+</div>
+
+<div class="pay-number">
+083174223034
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+
+<button
+class="payment"
+onclick="
+selectPayment(
+'ShopeePay',
+'083119546179',
+this
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+🟧
+</div>
+
+<div>
+
+<div class="pay-name">
+ShopeePay
+</div>
+
+<div class="pay-number">
+083119546179
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+
+<button
+class="payment"
+onclick="
+selectPayment(
+'Bank Jago',
+'506640850647',
+this
+)"
+>
+
+<div class="payment-left">
+
+<div class="pay-icon">
+🏦
+</div>
+
+<div>
+
+<div class="pay-name">
+Bank Jago
+</div>
+
+<div class="pay-number">
+506640850647
+</div>
+
+</div>
+
+</div>
+
+<span class="radio">
+○
+</span>
+
+</button>
+
+</div>
+
+
+<!-- PROOF -->
+
+<div class="card">
+
+<h3 style="
+font-size:14px;
+margin-bottom:7px;
+">
+🧾 Bukti Pembayaran
+</h3>
+
+<p style="
+color:var(--muted);
+font-size:10px;
+line-height:1.5;
+margin-bottom:10px;
+">
+
+Upload screenshot bukti pembayaran.
+Setelah konfirmasi, Admin akan
+memverifikasi pembayaran.
+
+</p>
+
+<input
+class="input"
+type="file"
+id="proof"
+accept="image/*"
+onchange="preview(event)"
+>
+
+<img
+class="preview"
+id="previewImage"
+>
+
+</div>
+
+
+<button
+class="btn green"
+onclick="confirmOrder()"
+>
+📲 Konfirmasi Pembayaran
+</button>
+
+</div>
+
+</div>
+
+
+<!-- BOTTOM -->
+
+<nav class="bottom">
+
+<button
+class="nav active"
+onclick="page('home',this)"
+>
+<span>⌂</span>
+Home
+</button>
+
+<button
+class="nav"
+onclick="openBuy()"
+>
+<span>🛒</span>
+Buy
+</button>
+
+<button
+class="nav"
+onclick="storGmail()"
+>
+<span>📦</span>
+Stor
+</button>
+
+<button
+class="nav"
+onclick="page('orders',this)"
+>
+<span>🧾</span>
+Order
+</button>
+
+</nav>
+
+
+<div
+class="toast"
+id="toast"
+>
+Berhasil
+</div>
+
+
+<script>
+
+/* ==============================
+   KONFIGURASI
+============================== */
+
+const ADMIN =
+"6283188891708";
+
+const REPORT =
+"6283824132465";
+
+let product = "";
+
+let price = 0;
+
+let payment = "";
+
+let paymentNumber = "";
+
+let proofOK = false;
+
+
+/*
+   STOK DEMO
+
+   Ini hanya akun demo/fiktif.
+   Jangan masukkan password akun nyata
+   ke dalam HTML.
+*/
+
+const demoStock = [
+
+"demo001@example.com",
+"demo002@example.com",
+"demo003@example.com",
+"demo004@example.com",
+"demo005@example.com",
+"demo006@example.com",
+"demo007@example.com",
+"demo008@example.com",
+"demo009@example.com",
+"demo010@example.com",
+"demo011@example.com",
+"demo012@example.com",
+"demo013@example.com",
+"demo014@example.com",
+"demo015@example.com",
+"demo016@example.com",
+"demo017@example.com",
+"demo018@example.com",
+"demo019@example.com",
+"demo020@example.com",
+"demo021@example.com",
+"demo022@example.com",
+"demo023@example.com",
+"demo024@example.com",
+"demo025@example.com",
+"demo026@example.com",
+"demo027@example.com",
+"demo028@example.com",
+"demo029@example.com",
+"demo030@example.com",
+"demo031@example.com",
+"demo032@example.com",
+"demo033@example.com",
+"demo034@example.com",
+"demo035@example.com",
+"demo036@example.com",
+"demo037@example.com",
+"demo038@example.com",
+"demo039@example.com",
+"demo040@example.com",
+"demo041@example.com",
+"demo042@example.com",
+"demo043@example.com",
+"demo044@example.com",
+"demo045@example.com",
+"demo046@example.com",
+"demo047@example.com",
+"demo048@example.com",
+"demo049@example.com",
+"demo050@example.com",
+"demo051@example.com",
+"demo052@example.com",
+"demo053@example.com",
+"demo054@example.com",
+"demo055@example.com",
+"demo056@example.com",
+"demo057@example.com",
+"demo058@example.com",
+"demo059@example.com",
+"demo060@example.com",
+"demo061@example.com",
+"demo062@example.com",
+"demo063@example.com",
+"demo064@example.com",
+"demo065@example.com",
+"demo066@example.com",
+"demo067@example.com",
+"demo068@example.com",
+"demo069@example.com",
+"demo070@example.com",
+"demo071@example.com",
+"demo072@example.com",
+"demo073@example.com",
+"demo074@example.com",
+"demo075@example.com",
+"demo076@example.com",
+"demo077@example.com",
+"demo078@example.com",
+"demo079@example.com",
+"demo080@example.com",
+"demo081@example.com",
+"demo082@example.com",
+"demo083@example.com",
+"demo084@example.com",
+"demo085@example.com",
+"demo086@example.com",
+"demo087@example.com",
+"demo088@example.com",
+"demo089@example.com",
+"demo090@example.com",
+"demo091@example.com",
+"demo092@example.com",
+"demo093@example.com",
+"demo094@example.com",
+"demo095@example.com",
+"demo096@example.com",
+"demo097@example.com",
+"demo098@example.com",
+"demo099@example.com",
+"demo100@example.com"
+
+];
+
+
+/* ==============================
+   OPEN / CLOSE
+============================== */
+
+function openBuy(){
+
+    document
+    .getElementById("buyModal")
+    .classList.add("show");
+
+    updateTotal();
+}
+
+
+function closeBuy(){
+
+    document
+    .getElementById("buyModal")
+    .classList.remove("show");
+}
+
+
+/* ==============================
+   PRODUCT
+============================== */
+
+function selectProduct(
+    name,
+    amount,
+    id
+){
+
+    product = name;
+
+    price = amount;
+
+
+    document
+    .querySelectorAll(
+        "#fresh,#trial"
+    )
+    .forEach(
+        el => {
+
+            el.classList.remove(
+                "selected"
+            );
+
+            const r =
+                el.querySelector(
+                    ".radio"
+                );
+
+            if(r){
+                r.textContent = "○";
+            }
+
+        }
+    );
+
+
+    const selected =
+        document.getElementById(id);
+
+
+    selected.classList.add(
+        "selected"
+    );
+
+
+    selected.querySelector(
+        ".radio"
+    ).textContent = "●";
+
+
+    updateTotal();
+}
+
+
+/* ==============================
+   TOTAL
+============================== */
+
+function updateTotal(){
+
+    const qty =
+        Math.max(
+            1,
+            Number(
+                document.getElementById(
+                    "qty"
+                ).value
+            ) || 1
+        );
+
+
+    const total =
+        price * qty;
+
+
+    document.getElementById(
+        "total"
+    ).textContent =
+        "Rp" +
+        total.toLocaleString(
+            "id-ID"
+        );
+}
+
+
+/* ==============================
+   PAYMENT
+============================== */
+
+function selectPayment(
+    method,
+    number,
+    el
+){
+
+    payment = method;
+
+    paymentNumber = number;
+
+
+    const cards =
+        el.parentElement
+        .querySelectorAll(
+            ".payment"
+        );
+
+
+    cards.forEach(
+        card => {
+
+            card.classList.remove(
+                "selected"
+            );
+
+            const r =
+                card.querySelector(
+                    ".radio"
+                );
+
+            if(r){
+                r.textContent = "○";
+            }
+
+        }
+    );
+
+
+    el.classList.add(
+        "selected"
+    );
+
+
+    el.querySelector(
+        ".radio"
+    ).textContent = "●";
+}
+
+
+/* ==============================
+   PREVIEW
+============================== */
+
+function preview(event){
+
+    const file =
+        event.target.files[0];
+
+
+    if(!file){
+        return;
+    }
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        toast(
+            "File harus gambar"
+        );
+
+        event.target.value = "";
+
+        return;
+    }
+
+
+    if(
+        file.size >
+        5 * 1024 * 1024
+    ){
+
+        toast(
+            "Maksimal 5 MB"
+        );
+
+        event.target.value = "";
+
+        return;
+    }
+
+
+    proofOK = true;
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            const img =
+                document.getElementById(
+                    "previewImage"
+                );
+
+            img.src =
+                e.target.result;
+
+            img.style.display =
+                "block";
+        };
+
+
+    reader.readAsDataURL(file);
+}
+
+
+/* ==============================
+   CONFIRM ORDER
+============================== */
+
+function confirmOrder(){
+
+    if(!product){
+
+        toast(
+            "Pilih produk"
+        );
+
+        return;
+    }
+
+
+    if(!payment){
+
+        toast(
+            "Pilih pembayaran"
+        );
+
+        return;
+    }
+
+
+    if(!proofOK){
+
+        toast(
+            "Upload bukti pembayaran"
+        );
+
+        return;
+    }
+
+
+    const qty =
+        Math.max(
+            1,
+            Number(
+                document.getElementById(
+                    "qty"
+                ).value
+            ) || 1
+        );
+
+
+    const total =
+        price * qty;
+
+
+    const id =
+        "LG-" +
+        Date.now();
+
+
+    const order = {
+
+        id:id,
+
+        product:product,
+
+        price:price,
+
+        qty:qty,
+
+        total:total,
+
+        payment:payment,
+
+        paymentNumber:paymentNumber,
+
+        status:"Menunggu Verifikasi",
+
+        accounts:[],
+
+        date:
+            new Date()
+            .toLocaleString("id-ID")
+
+    };
+
+
+    let orders =
+        JSON.parse(
+            localStorage.getItem(
+                "luxy_orders"
+            ) || "[]"
+        );
+
+
+    orders.unshift(order);
+
+
+    localStorage.setItem(
+        "luxy_orders",
+        JSON.stringify(orders)
+    );
+
+
+    const message =
+
+`Halo Admin Luxy Gmail 👋
+
+Saya sudah melakukan pembayaran.
+
+ID Order:
+${id}
+
+Produk:
+${product}
+
+Jumlah:
+${qty} akun
+
+Total:
+Rp${total.toLocaleString("id-ID")}
+
+Metode:
+${payment}
+
+Nomor:
+${paymentNumber}
+
+Status:
+Menunggu verifikasi.
+
+Saya sudah memiliki bukti pembayaran.
+Mohon dicek dan diverifikasi.
+
+Terima kasih.`;
+
+
+    closeBuy();
+
+    renderOrders();
+
+    page("orders");
+
+
+    window.location.href =
+        "https://wa.me/" +
+        ADMIN +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
+}
+
+
+/* ==============================
+   ADMIN DEMO VERIFICATION
+============================== */
+
+/*
+   Untuk demo/testing.
+
+   Tombol "Simulasikan Pembayaran
+   Diverifikasi" akan membuat akun
+   muncul sesuai jumlah pembelian.
+
+   Pada website produksi, bagian ini
+   seharusnya dilakukan oleh server/admin,
+   bukan oleh JavaScript di browser.
+*/
+
+function verifyDemo(id){
+
+    let orders =
+        JSON.parse(
+            localStorage.getItem(
+                "luxy_orders"
+            ) || "[]"
+        );
+
+
+    const order =
+        orders.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(!order){
+        return;
+    }
+
+
+    if(
+        order.status ===
+        "Terverifikasi"
+    ){
+
+        toast(
+            "Order sudah diverifikasi"
+        );
+
+        return;
+    }
+
+
+    const available =
+        demoStock.length;
+
+
+    const qty =
+        Math.min(
+            order.qty,
+            available
+        );
+
+
+    order.accounts =
+        demoStock.splice(
+            0,
+            qty
+        );
+
+
+    order.status =
+        "Terverifikasi";
+
+
+    localStorage.setItem(
+        "luxy_demo_stock",
+        JSON.stringify(
+            demoStock
+        )
+    );
+
+
+    localStorage.setItem(
+        "luxy_orders",
+        JSON.stringify(
+            orders
+        )
+    );
+
+
+    renderOrders();
+
+
+    toast(
+        "Pembayaran diverifikasi"
+    );
+}
+
+
+/* ==============================
+   ORDERS
+============================== */
+
+function renderOrders(){
+
+    const box =
+        document.getElementById(
+            "ordersList"
+        );
+
+
+    if(!box){
+        return;
+    }
+
+
+    let orders =
+        JSON.parse(
+            localStorage.getItem(
+                "luxy_orders"
+            ) || "[]"
+        );
+
+
+    if(
+        orders.length === 0
+    ){
+
+        box.innerHTML = `
+
+        <div class="card">
+
+            <div class="waiting">
+
+                <div class="waiting-icon">
+                🧾
+                </div>
+
+                <h3>
+                Belum Ada Order
+                </h3>
+
+                <p>
+                Order pembelian akan
+                muncul di sini.
+                </p>
+
+            </div>
+
+        </div>
+
+        `;
+
+        return;
+    }
+
+
+    box.innerHTML =
+        orders
+        .map(
+            order => {
+
+                const verified =
+                    order.status ===
+                    "Terverifikasi";
+
+
+                let accountsHTML = "";
+
+
+                if(verified){
+
+                    accountsHTML = `
+
+                    <div style="
+                        margin-top:14px;
+                    ">
+
+                        <strong style="
+                            font-size:13px;
+                        ">
+                        📧 Gmail Pembelian
+                        </strong>
+
+                        <div style="
+                            margin-top:9px;
+                        ">
+
+                        ${
+                            order.accounts
+                            .map(
+                                (email,index) => `
+
+                                <div class="account">
+
+                                    <div class="account-email">
+                                        ${index+1}.
+                                        ${escapeHTML(email)}
+                                    </div>
+
+                                    <div class="account-note">
+                                        Akun demo /
+                                        stok testing.
+                                        Password tidak
+                                        disimpan di website.
+                                    </div>
+
+                                </div>
+
+                                `
+                            )
+                            .join("")
+                        }
+
+                        </div>
+
+                    </div>
+
+                    `;
+
+                }else{
+
+                    accountsHTML = `
+
+                    <div class="waiting">
+
+                        <div class="waiting-icon">
+                        ⏳
+                        </div>
+
+                        <h3>
+                        Menunggu Verifikasi
+                        </h3>
+
+                        <p>
+                        Akun akan muncul setelah
+                        pembayaran diverifikasi
+                        oleh Admin.
+                        </p>
+
+                    </div>
+
+                    `;
+
+                }
+
+
+                return `
+
+                <div class="card">
+
+                    <div class="history">
+
+                        <div class="history-id">
+                            ${escapeHTML(order.id)}
+                        </div>
+
+                        <div class="history-main">
+                            ${escapeHTML(order.product)}
+                        </div>
+
+                        <div class="history-sub">
+                            Jumlah:
+                            ${order.qty} akun
+                        </div>
+
+                        <div class="history-sub">
+                            Total:
+                            Rp${Number(
+                                order.total
+                            ).toLocaleString("id-ID")}
+                        </div>
+
+                        <div class="history-sub">
+                            Pembayaran:
+                            ${escapeHTML(
+                                order.payment
+                            )}
+                        </div>
+
+                        <div class="history-sub">
+                            Status:
+                            <strong style="
+                                color:${
+                                    verified
+                                    ? "var(--green)"
+                                    : "#ffb547"
+                                };
+                            ">
+                            ${escapeHTML(
+                                order.status
+                            )}
+                            </strong>
+                        </div>
+
+                        <div class="history-sub">
+                            ${escapeHTML(
+                                order.date
+                            )}
+                        </div>
+
+                    </div>
+
+                    ${accountsHTML}
+
+                    ${
+                        !verified
+                        ? `
+
+                        <button
+                            class="btn green"
+                            onclick="
+                                verifyDemo(
+                                    '${order.id}'
+                                )
+                            "
+                        >
+                            ✅ Simulasikan
+                            Pembayaran Diverifikasi
+                        </button>
+
+                        <p style="
+                            color:var(--muted);
+                            font-size:9px;
+                            line-height:1.5;
+                            margin-top:8px;
+                            text-align:center;
+                        ">
+                        Tombol ini hanya untuk
+                        testing/demo. Pada sistem
+                        nyata verifikasi harus
+                        dilakukan oleh Admin melalui
+                        backend.
+                        </p>
+
+                        `
+                        : ""
+                    }
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+}
+
+
+/* ==============================
+   PAGE
+============================== */
+
+function page(id,button){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(
+        p =>
+            p.classList.remove(
+                "active"
+            )
+    );
+
+
+    const target =
+        document.getElementById(id);
+
+
+    if(target){
+        target.classList.add(
+            "active"
+        );
+    }
+
+
+    document
+    .querySelectorAll(".nav")
+    .forEach(
+        n =>
+            n.classList.remove(
+                "active"
+            )
+    );
+
+
+    if(button){
+        button.classList.add(
+            "active"
+        );
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* ==============================
+   STOR
+============================== */
+
+function storGmail(){
+
+    const message =
+
+`Halo Admin Luxy Gmail 👋
+
+Saya ingin STOR Gmail Fresh.
+
+Mohon informasi:
+
+• Harga per akun
+• Jumlah akun
+• Syarat akun
+• Cara penyerahan
+• Ketentuan pembayaran
+
+Terima kasih.`;
+
+
+    window.location.href =
+        "https://wa.me/" +
+        ADMIN +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
+}
+
+
+/* ==============================
+   REPORT
+============================== */
+
+function report(){
+
+    const message =
+
+`Halo Admin Luxy Gmail.
+
+Saya ingin melaporkan masalah
+terkait transaksi.
+
+Mohon bantuan Admin.
+
+Terima kasih.`;
+
+
+    window.location.href =
+        "https://wa.me/" +
+        REPORT +
+        "?text=" +
+        encodeURIComponent(
+            message
+        );
+}
+
+
+/* ==============================
+   THEME
+============================== */
+
+function toggleTheme(){
+
+    document.body
+    .classList
+    .toggle("light");
+
+
+    const light =
+        document.body.classList.contains(
+            "light"
+        );
+
+
+    localStorage.setItem(
+        "luxy_theme",
+        light
+        ? "light"
+        : "dark"
+    );
+
+
+    document.getElementById(
+        "themeBtn"
+    ).textContent =
+        light
+        ? "🌙"
+        : "☀️";
+}
+
+
+if(
+    localStorage.getItem(
+        "luxy_theme"
+    ) === "light"
+){
+
+    document.body
+    .classList
+    .add("light");
+
+
+    document.getElementById(
+        "themeBtn"
+    ).textContent =
+        "🌙";
+}
+
+
+/* ==============================
+   COPY
+============================== */
+
+function copy(number){
+
+    if(
+        navigator.clipboard
+    ){
+
+        navigator.clipboard
+        .writeText(number)
+        .then(
+            () =>
+                toast(
+                    "Nomor berhasil disalin"
+                )
+        );
+
+    }else{
+
+        alert(number);
+
+    }
+}
+
+
+/* ==============================
+   TOAST
+============================== */
+
+function toast(text){
+
+    const el =
+        document.getElementById(
+            "toast"
+        );
+
+
+    el.textContent =
+        text;
+
+
+    el.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        () =>
+            el.classList.remove(
+                "show"
+            ),
+        2200
+    );
+}
+
+
+/* ==============================
+   ESCAPE
+============================== */
+
+function escapeHTML(value){
+
+    return String(value)
+    .replace(
+        /[&<>"']/g,
+        char => ({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[char])
+    );
+}
+
+
+/* ==============================
+   START
+============================== */
+
+renderOrders();
+
+</script>
+
+</body>
+</html>
